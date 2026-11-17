@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 4b - Question 2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <h2>Book Collection (Check Browser Console & Below)</h2>
+    <div id="output"></div>
+
+    <script>
+        $(document).ready(function () {
+            $.getJSON("books.json", function (data) {
+                const books = data.books;
+
+                const firstBookTitle = books[0].title;
+                console.log("(a) Title of the first book:", firstBookTitle);
+
+                const secondBookAuthor = books[1].author;
+                console.log("(b) Author of the second book:", secondBookAuthor);
+
+                console.log("(c) Genres of all books:");
+                let allGenres = [];
+                books.forEach(function (book, index) {
+                    console.log(`Book ${index + 1} (${book.title}):`, book.genres.join(", "));
+                    allGenres.push(`${book.title}: ${book.genres.join(", ")}`);
+                });
+
+                $("#output").html(
+                    `<p><strong>(a) Title of the first book:</strong> ${firstBookTitle}</p>` +
+                    `<p><strong>(b) Author of the second book:</strong> ${secondBookAuthor}</p>` +
+                    `<p><strong>(c) Genres of all books:</strong><br>${allGenres.join("<br>")}</p>`
+                );
+            }).fail(function () {
+                console.error("Failed to load books.json. Make sure you are running via a local server (e.g., VS Code Live Server).");
+            });
+        });
+    </script>
+
+</body>
+</html>
